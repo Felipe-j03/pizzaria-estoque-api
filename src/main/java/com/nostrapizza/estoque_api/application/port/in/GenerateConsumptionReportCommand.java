@@ -1,4 +1,10 @@
 package com.nostrapizza.estoque_api.application.port.in;
 
-public record GenerateConsumptionReportCommand() {
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public record GenerateConsumptionReportCommand(
+        LocalDateTime start,
+        LocalDateTime end
+) {
 }
