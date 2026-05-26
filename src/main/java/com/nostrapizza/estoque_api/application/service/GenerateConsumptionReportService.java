@@ -48,9 +48,3 @@ public class GenerateConsumptionReportService implements GenerateConsumptionRepo
                 .toList();
     }
 }
-git add src/main/java/com/nostrapizza/estoque_api/application/service/Create* \
-src/main/java/com/nostrapizza/estoque_api/application/service/Update* \
-src/main/java/com/nostrapizza/estoque_api/application/service/Deactivate* \
-src/main/java/com/nostrapizza/estoque_api/application/service/Reactivate* \
-src/main/java/com/nostrapizza/estoque_api/application/service/ChangePassword* \
-src/main/java/com/nostrapizza/estoque_api/application/service/Register*
