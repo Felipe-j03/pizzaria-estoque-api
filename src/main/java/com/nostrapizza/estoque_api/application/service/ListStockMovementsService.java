@@ -9,7 +9,6 @@ import com.nostrapizza.estoque_api.domain.entity.StockMovement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

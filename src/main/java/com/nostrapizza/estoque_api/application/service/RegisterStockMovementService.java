@@ -1,6 +1,5 @@
 package com.nostrapizza.estoque_api.application.service;
 
-import com.nostrapizza.estoque_api.application.port.in.LoginUseCase;
 import com.nostrapizza.estoque_api.application.port.in.RegisterStockMovementCommand;
 import com.nostrapizza.estoque_api.application.port.in.RegisterStockMovementUseCase;
 import com.nostrapizza.estoque_api.application.port.out.ProductRepository;

@@ -3,7 +3,6 @@ package com.nostrapizza.estoque_api.application.service;
 import com.nostrapizza.estoque_api.application.port.in.ConsumptionReportItem;
 import com.nostrapizza.estoque_api.application.port.in.GenerateConsumptionReportCommand;
 import com.nostrapizza.estoque_api.application.port.in.GenerateConsumptionReportUseCase;
-import com.nostrapizza.estoque_api.application.port.out.ProductRepository;
 import com.nostrapizza.estoque_api.application.port.out.StockMovementRepository;
 import com.nostrapizza.estoque_api.domain.entity.Product;
 import com.nostrapizza.estoque_api.domain.entity.StockMovement;
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
