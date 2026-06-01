@@ -24,4 +24,15 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
+    public User(UUID id, String name, String email, String passwordHash,
+                UserRole role, boolean active, LocalDateTime createdAt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.role = role;
+        this.active = active;
+        this.createdAt = createdAt;
+    }
+
 }

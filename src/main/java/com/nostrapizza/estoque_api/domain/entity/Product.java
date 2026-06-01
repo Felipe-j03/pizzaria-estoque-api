@@ -23,4 +23,15 @@ public class Product {
         this.createdAt = LocalDateTime.now();
     }
 
+    public Product(UUID id, LocalDateTime createdAt,  String name,
+                   String unit, float currentQuantity, float minQuantity, boolean active) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.name = name;
+        this.unit = unit;
+        this.currentQuantity = currentQuantity;
+        this.minQuantity = minQuantity;
+        this.active = active;
+    }
+
 }
