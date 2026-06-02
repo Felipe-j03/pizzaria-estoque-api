@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: pizzaria-postgres
+    environment:
+      POSTGRES_DB: pizzaria_estoque
+      POSTGRES_USER: nostra
+      POSTGRES_PASSWORD: nostra123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
