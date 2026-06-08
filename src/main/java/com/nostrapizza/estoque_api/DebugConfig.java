@@ -24,9 +24,11 @@ public class DebugConfig {
             System.out.println("URL: [" + url + "]");
             System.out.println("USERNAME: [" + username + "] (length=" + username.length() + ")");
             System.out.println("PASSWORD: [" + password + "] (length=" + password.length() + ")");
+            System.out.print("Password chars: ");
             for (char c : password.toCharArray()) {
-                System.out.println("  char: '" + c + "' code=" + (int) c);
+                System.out.print("[" + c + "=" + (int) c + "] ");
             }
+            System.out.println();
             System.out.println("=========================================");
         };
     }

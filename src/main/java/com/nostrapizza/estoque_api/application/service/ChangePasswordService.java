@@ -7,6 +7,7 @@ import com.nostrapizza.estoque_api.domain.entity.User;
 import com.nostrapizza.estoque_api.domain.exception.InvalidCredentialsException;
 import com.nostrapizza.estoque_api.domain.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

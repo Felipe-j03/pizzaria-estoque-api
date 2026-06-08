@@ -6,6 +6,6 @@ public record UpdateProductCommand(
         UUID productId,
         String name,
         String unit,
-        float minQuantity
+        Float minQuantity
 ) {
 }
