@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class ProductController {
     private final ListLowStockProductsUseCase listLowStockProductsUseCase;
 
     @PostMapping
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<ProductResponse> create(@Valid @RequestBody RegisterProductRequest request) {
 
         CreateProductCommand command = new CreateProductCommand(request.name(), request.unit(), request.currentQuantity(),
@@ -56,6 +58,7 @@ public class ProductController {
 
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<ProductResponse> update(
             @PathVariable UUID id,
             @Valid @RequestBody UpdateProductRequest request) {
@@ -68,6 +71,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         deactivateProductUseCase.execute(id);
         return ResponseEntity.noContent().build();

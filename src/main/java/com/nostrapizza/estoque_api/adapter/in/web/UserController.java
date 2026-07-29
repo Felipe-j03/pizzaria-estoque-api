@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class UserController {
     private final DeactivateUserUseCase deactivateUserUseCase;
 
     @PostMapping
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<UserResponse> create(@Valid @RequestBody RegisterUserRequest request) {
 
         CreateUserCommand command = new CreateUserCommand(request.name(), request.email(), request.password(), request.role());
@@ -34,6 +36,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<List<UserResponse>> findAll() {
 
         List<User> users = listUsersUseCase.execute();
@@ -43,12 +46,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<UserResponse> findById(@PathVariable UUID id) {
         User user = getUserByIdUseCase.execute(id);
         return ResponseEntity.ok(toResponse(user));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<UserResponse> update(
             @PathVariable UUID id,
             @Valid @RequestBody UpdateUserRequest request) {
@@ -59,6 +64,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         deactivateUserUseCase.execute(id);
         return ResponseEntity.noContent().build();
