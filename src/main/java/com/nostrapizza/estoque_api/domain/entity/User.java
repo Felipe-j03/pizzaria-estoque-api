@@ -2,7 +2,6 @@ package com.nostrapizza.estoque_api.domain.entity;
 
 import com.nostrapizza.estoque_api.domain.enums.UserRole;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;

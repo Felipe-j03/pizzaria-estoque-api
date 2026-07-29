@@ -17,7 +17,7 @@ public class UpdateUserService implements UpdateUserUseCase {
     @Override
     public User execute(UpdateUserCommand command) {
 
-        User user = userRepository.findById(command.userId()).orElseThrow(
+        User user = userRepository.findById(command.id()).orElseThrow(
                 () -> new UserNotFoundException("User not found"));
         if (command.name() != null) {
             user.setName(command.name());
