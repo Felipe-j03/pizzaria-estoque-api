@@ -9,6 +9,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,9 +28,12 @@ public class StockMovementController {
     private final GenerateConsumptionReportUseCase generateConsumptionReportUseCase;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('MANAGER', 'EMPLOYEE')")
     public ResponseEntity<StockMovementResponse> create(
-            @Valid @RequestBody RegisterStockMovementRequest request,
-            @RequestHeader("X-User-Id") UUID userId) {
+            @Valid @RequestBody RegisterStockMovementRequest request) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UUID userId = (UUID) auth.getPrincipal();
 
         RegisterStockMovementCommand command = new RegisterStockMovementCommand(request.productId(), userId,
                 request.quantity(), request.type(), request.note());
@@ -36,6 +42,7 @@ public class StockMovementController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('MANAGER', 'EMPLOYEE')")
     public ResponseEntity<List<StockMovementResponse>> findAll(
             @RequestParam(required = false) UUID productId,
             @RequestParam(required = false) UUID userId,
@@ -55,6 +62,7 @@ public class StockMovementController {
     }
 
     @GetMapping("/report")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<List<ConsumptionReportItem>> generateReport(
             @RequestParam LocalDateTime start,
             @RequestParam LocalDateTime end) {
