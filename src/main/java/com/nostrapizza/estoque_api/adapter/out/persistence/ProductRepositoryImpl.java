@@ -2,7 +2,6 @@ package com.nostrapizza.estoque_api.adapter.out.persistence;
 
 import com.nostrapizza.estoque_api.application.port.out.ProductRepository;
 import com.nostrapizza.estoque_api.domain.entity.Product;
-import com.nostrapizza.estoque_api.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

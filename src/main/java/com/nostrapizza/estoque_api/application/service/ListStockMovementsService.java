@@ -2,9 +2,7 @@ package com.nostrapizza.estoque_api.application.service;
 
 import com.nostrapizza.estoque_api.application.port.in.ListStockMovementsCommand;
 import com.nostrapizza.estoque_api.application.port.in.ListStockMovementsUseCase;
-import com.nostrapizza.estoque_api.application.port.out.ProductRepository;
 import com.nostrapizza.estoque_api.application.port.out.StockMovementRepository;
-import com.nostrapizza.estoque_api.application.port.out.UserRepository;
 import com.nostrapizza.estoque_api.domain.entity.StockMovement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,8 +14,6 @@ import java.util.List;
 public class ListStockMovementsService implements ListStockMovementsUseCase {
 
     private final StockMovementRepository stockMovementRepository;
-    private final UserRepository userRepository;
-    private final ProductRepository productRepository;
 
     @Override
     public List<StockMovement> execute(ListStockMovementsCommand command) {
