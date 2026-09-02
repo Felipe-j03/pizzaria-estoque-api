@@ -20,13 +20,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.nostrapizza.estoque_api.application.port.in.CreateProductCommand;
 import com.nostrapizza.estoque_api.application.port.in.CreateUserCommand;
 import com.nostrapizza.estoque_api.application.port.out.UserRepository;
 import com.nostrapizza.estoque_api.application.service.CreateUserService;
 import com.nostrapizza.estoque_api.domain.entity.User;
 import com.nostrapizza.estoque_api.domain.enums.UserRole;
-import com.nostrapizza.estoque_api.domain.exception.ProductAlreadyExistsException;
 import com.nostrapizza.estoque_api.domain.exception.UserAlreadyExistsException;
 
 @ExtendWith(MockitoExtension.class)

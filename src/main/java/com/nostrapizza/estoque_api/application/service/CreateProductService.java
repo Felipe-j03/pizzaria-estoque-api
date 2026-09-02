@@ -24,6 +24,7 @@ public class CreateProductService implements CreateProductUseCase {
         product.setUnit(command.unit());
         product.setMinQuantity(command.minQuantity());
         product.setCurrentQuantity(command.currentQuantity());
+        product.setActive(true);
         return productRepository.save(product);
     }
 }

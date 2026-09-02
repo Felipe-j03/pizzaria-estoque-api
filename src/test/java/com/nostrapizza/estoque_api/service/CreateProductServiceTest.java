@@ -2,7 +2,9 @@ package com.nostrapizza.estoque_api.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -11,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -36,21 +39,26 @@ class CreateProductServiceTest {
 
         when(productRepository.existsByName("Mussarela")).thenReturn(false);
 
-        Product savedProduct = new Product();
-        savedProduct.setName("Mussarela");
-        savedProduct.setUnit("kg");
-        savedProduct.setCurrentQuantity(10f);
-        savedProduct.setMinQuantity(2f);
+        Product product = new Product();
+        product.setName("Mussarela");
+        product.setUnit("kg");
+        product.setCurrentQuantity(10f);
+        product.setMinQuantity(2f);
+        product.setActive(true);
 
-        when(productRepository.save(any(Product.class))).thenReturn(savedProduct);
+        when(productRepository.save(any(Product.class))).thenReturn(product);
 
         Product result = createProductService.execute(command);
+        ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
+        verify(productRepository).save(captor.capture());
+        Product savedProduct = captor.getValue();
 
-        assertNotNull(result);
-        assertEquals("Mussarela", result.getName());
-        assertEquals("kg", result.getUnit());
-
-        verify(productRepository, times(1)).save(any(Product.class));
+        assertSame(product, result);
+        assertEquals(command.name(), savedProduct.getName());
+        assertEquals(command.unit(), savedProduct.getUnit());
+        assertEquals(command.currentQuantity(), savedProduct.getCurrentQuantity());
+        assertEquals(command.minQuantity(), savedProduct.getMinQuantity());
+        assertTrue(savedProduct.isActive());
     }
 
     @Test

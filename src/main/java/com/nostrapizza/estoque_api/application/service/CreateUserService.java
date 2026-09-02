@@ -19,7 +19,7 @@ public class CreateUserService implements CreateUserUseCase {
     @Override
     public User execute(CreateUserCommand command) {
 
-        if(userRepository.existsByEmail(command.email())){
+        if (userRepository.existsByEmail(command.email())) {
             throw new UserAlreadyExistsException("User with email " + command.email() + " already exists");
         }
 
