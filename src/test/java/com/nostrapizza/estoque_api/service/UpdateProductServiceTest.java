@@ -9,6 +9,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -16,59 +20,59 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.nostrapizza.estoque_api.application.port.in.CreateProductCommand;
+import com.nostrapizza.estoque_api.application.port.in.UpdateProductCommand;
 import com.nostrapizza.estoque_api.application.port.out.ProductRepository;
-import com.nostrapizza.estoque_api.application.service.CreateProductService;
+import com.nostrapizza.estoque_api.application.service.UpdateProductService;
 import com.nostrapizza.estoque_api.domain.entity.Product;
-import com.nostrapizza.estoque_api.domain.exception.ProductAlreadyExistsException;
+import com.nostrapizza.estoque_api.domain.exception.ProductNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
-class CreateProductServiceTest {
+public class UpdateProductServiceTest {
 
     @Mock
     private ProductRepository productRepository;
 
     @InjectMocks
-    private CreateProductService createProductService;
+    private UpdateProductService updateProductService;
 
     @Test
     void shouldReturnAndSaveWhenProductDontExist() {
-        CreateProductCommand command = new CreateProductCommand("Mussarela", "kg", 10f, 2f);
+        UUID commandId = UUID.randomUUID();
+        UpdateProductCommand command = new UpdateProductCommand(commandId, "Mussarela", "kg", 2f);
 
-        when(productRepository.existsByName(command.name())).thenReturn(false);
+        Product product = new Product(commandId, LocalDateTime.now(), "Provolone", "un", 20f, 5f, true);
+        Product productMock = new Product(commandId, LocalDateTime.now(), "Mock", "kg", 10f, 2f, true);
 
-        Product product = new Product();
-        product.setName("Mussarela");
-        product.setUnit("kg");
-        product.setCurrentQuantity(10f);
-        product.setMinQuantity(2f);
-        product.setActive(true);
+        when(productRepository.findById(commandId)).thenReturn(Optional.of(product));
+        when(productRepository.save(any(Product.class))).thenReturn(productMock);
 
-        when(productRepository.save(any(Product.class))).thenReturn(product);
-
-        Product result = createProductService.execute(command);
+        Product result = updateProductService.execute(command);
         ArgumentCaptor<Product> captor = ArgumentCaptor.forClass(Product.class);
         verify(productRepository).save(captor.capture());
         Product savedProduct = captor.getValue();
 
-        assertSame(product, result);
+        assertSame(productMock, result);
         assertEquals(command.name(), savedProduct.getName());
         assertEquals(command.unit(), savedProduct.getUnit());
-        assertEquals(command.currentQuantity(), savedProduct.getCurrentQuantity());
         assertEquals(command.minQuantity(), savedProduct.getMinQuantity());
+        assertEquals(product.getCurrentQuantity(), savedProduct.getCurrentQuantity());
         assertTrue(savedProduct.isActive());
+
     }
 
     @Test
-    void shouldThrowExceptionWhenProductAlreadyExists() {
-        CreateProductCommand command = new CreateProductCommand("Mussarela", "kg", 12f, 4f);
+    void shouldThrowExceptionWhenProductNotFound() {
+        UUID commandId = UUID.randomUUID();
+        UpdateProductCommand command = new UpdateProductCommand(commandId, "Cebola", "kg", 2f);
 
-        when(productRepository.existsByName("Mussarela")).thenReturn(true);
+        when(productRepository.findById(commandId)).thenReturn(Optional.empty());
 
-        assertThrows(ProductAlreadyExistsException.class, () -> {
-            createProductService.execute(command);
+        assertThrows(ProductNotFoundException.class, () -> {
+            updateProductService.execute(command);
         });
 
         verify(productRepository, never()).save(any());
+
     }
+
 }

@@ -1,6 +1,5 @@
 package com.nostrapizza.estoque_api.application.service;
 
-
 import com.nostrapizza.estoque_api.application.port.in.UpdateProductCommand;
 import com.nostrapizza.estoque_api.application.port.in.UpdateProductUseCase;
 import com.nostrapizza.estoque_api.application.port.out.ProductRepository;
@@ -20,7 +19,7 @@ public class UpdateProductService implements UpdateProductUseCase {
 
         Product product = productRepository
                 .findById(command.productId())
-                .orElseThrow(() ->  new ProductNotFoundException("Product not found: "  + command.productId()));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found: " + command.productId()));
         product.setName(command.name());
         product.setUnit(command.unit());
         product.setMinQuantity(command.minQuantity());
